@@ -1,0 +1,84 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <div class="container-fluid">
+    <h2>Individual: {{ individual.name }}
+        {% if individual.title %}
+            ({{ individual.title }})
+        {% endif %}
+    </h2>
+
+    <div>
+    <h3>Phenotype</h3>
+    <ul>
+        <li>
+            <b>Species</b>
+            <a href="https://en.wikipedia.org/wiki/{{ individual.organism.scientific_name }}" target="_blank"> {{ individual.organism }}</a>
+        </li>
+        <li><b>Sex</b>
+            {% if individual.sex.name == "male"  %} ♂️ {{ sample.sex }}
+            {% elif individual.sex.name == "female"  %} ♀️ {{ sample.sex }}
+            {% else %} {{ individual.sex }}
+            {% endif %}
+        </li>
+    </ul>
+    </div>
+    <div>
+    <h3>Sampling history</h3>
+
+        {% for sampling_event in  individual.sampling_event.all %}
+        <h4>{{ sampling_event.sampling_date }}</h4>
+        <ul>
+            <li><b>Collection country</b> {{ sampling_event.collection_country }}</li>
+            <li><b>Tissue</b> {{ sampling_event.biosample.tissue }}</li>
+            <li><b>age</b> {{ sampling_event.age_at_sampling }} at {{ sampling_event.sampling_date }} </li>
+
+        <li>
+            <b>Throat phenotype</b>
+            {% if sampling_event.throat_phenotype.label %}
+                <span style="height: 12px; width: 12px; border: 1px solid black; background-color: {{sampling_event.throat_phenotype.label}}; border-radius: 50%; display: inline-block;"></span>
+                {{ sampling_event.throat_phenotype.label }}
+            {% else %}
+                N/A
+            {% endif %}
+        </li>
+        <li>
+            <b>Back color</b>
+            {% if sampling_event.back_color_score.label %}
+                <span style="height: 12px; width: 12px; border: 1px solid black;  background-color: {{ sampling_event.back_color_score.label }}; border-radius: 50%; display: inline-block;"></span>
+                {{ sampling_event.back_color_score.label }}
+            {% else %}
+                N/A
+            {% endif %}
+        </li>
+        <li>
+            <b>Neck color</b>
+            {% if sampling_event.neck_color_score.label %}
+                <span style="height: 12px; width: 12px; border: 1px solid black;  background-color: {{ sampling_event.neck_color_score.label }}; border-radius: 50%; display: inline-block;"></span>
+                {{ sampling_event.neck_color_score.label }}</li>
+            {% else %}
+                N/A
+            {% endif %}
+        {% for biosample in sampling_event.biosample.all %}
+            <li><b> Biosample </b>{{ biosample.tissue_type }} in {{ biosample.preservative }}</li>
+        {% endfor %}
+        </ul>{% endfor %}
+
+    </div>
+
+
+
+    <h3>Libraries</h3>
+    <ul>
+        {% for lib in individual.sampling_event_all.sample_all.experiment.all %}
+            <li>{{lib}}<br>
+                <ul>
+                {% for file in lib.file_set.all %}
+                    <li>{{file}}</li>
+                {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

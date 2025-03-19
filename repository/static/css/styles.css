@@ -1,0 +1,21 @@
+.sidebar-nav {
+  margin-top: 20px;
+  padding: 0;
+  list-style: none;
+  background: #2b669a;
+
+}
+
+.black-dot {
+  height: 12px;
+  width: 12px;
+  background-color: black;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+
+.sidebar-header {
+  font-weight: bold;
+  font-size: larger;
+}

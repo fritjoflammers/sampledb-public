@@ -1,0 +1,76 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h2>Sample: {{ sample.name }}
+    {% if sample.title %}
+        ({{ sample.title }})
+    {% endif %}
+</h2>
+
+<div>
+<h3>Phenotype</h3>
+<ul>
+    <li>
+        <b>Species</b>
+        <a href="https://en.wikipedia.org/wiki/{{ sample.organism.scientific_name }}" target="_blank"> {{ sample.organism }}</a>
+    </li>
+    <li><b>Sex</b>
+        {% if sample.sex.name == "male"  %} ♂️ {{ sample.sex }}
+        {% elif sample.sex.name == "female"  %} ♀️ {{ sample.sex }}
+        {% else %} {{ sample.sex }}
+        {% endif %}
+    </li>
+    <li><b>age</b> {{ sample.age }}</li>
+    <li>
+        <b>Throat phenotype</b>
+        {% if sample.throat_phenotype.label %}
+            <span style="height: 12px; width: 12px; border: 1px solid black; background-color: {{ sample.throat_phenotype.label }}; border-radius: 50%; display: inline-block;"></span>
+            {{ sample.throat_phenotype.label }}
+        {% else %}
+            N/A
+        {% endif %}
+    </li>
+    <li>
+        <b>Back color</b>
+        {% if sample.back_color_score.label %}
+            <span style="height: 12px; width: 12px; border: 1px solid black;  background-color: {{ sample.back_color_score.label }}; border-radius: 50%; display: inline-block;"></span>
+            {{ sample.back_color_score.label }}
+        {% else %}
+            N/A
+        {% endif %}
+    </li>
+    <li>
+        <b>Neck color</b>
+        {% if sample.neck_color_score.label %}
+            <span style="height: 12px; width: 12px; border: 1px solid black;  background-color: {{ sample.neck_color_score.label }}; border-radius: 50%; display: inline-block;"></span>
+            {{ sample.neck_color_score.label }}</li>
+        {% else %}
+            N/A
+        {% endif %}
+    </ul>
+
+</div>
+    <div>
+    <h3> Sampling details</h3>
+    <ul>
+        <li><b>Collection country</b> {{ sample.collection_country }}</li>
+        <li><b>Replicate</b> {{ sample.replicate }}</li>  <!-- get number of reps -->
+        <li><b>Tissue</b> {{ sample.tissue }}</li>
+    </ul>
+    </div>
+
+
+<h3>Libraries</h3>
+<ul>
+    {% for lib in sample.library_set.all %}
+        <li>{{lib}}<br>
+            <ul>
+            {% for file in lib.file_set.all %}
+                <li>{{file}}</li>
+            {% endfor %}
+            </ul>
+        </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

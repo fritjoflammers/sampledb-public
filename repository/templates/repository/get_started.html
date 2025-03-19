@@ -1,0 +1,20 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <div class="container-fluid">
+    <h2>Getting Started</h2>
+        < class="docs-content">
+        This web-based database application manages sample and sequencing library information for the
+            wheatear genomics project at the Vogelwarte Sempach.
+
+        To start you can start retrieving sample information by searching for an individual name on the
+            <a href="{% url 'repository:individual_list' %}">Individuals</a> or <a href="{% url 'repository:experiments_list' %}">Experiments</a> page and
+            click on the individual name.
+
+        <div class="alert alert-warning" role="alert"> Currently the database only contains experiments for the Methylomics project.
+        This means only individuals with existing experiment data are listed on the <a href="{% url 'repository:experiments_list' %}">Experiments</a> page.
+        </div>
+
+    </div>
+
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h2>Experiment {{ experiment.id }}</h2>
+
+<h3>
+    {% if experiment.title %}
+        ({{ experiment.title }})
+    {% endif %}
+</h3>
+    <div>
+    <ul>
+        <li>Individual Name <a href="{% url 'repository:individual' experiment.sample.sampling_event.individual%}"> {{ experiment.sample.sampling_event.individual }} </a>
+        <li>Related sample: <a href="{% url 'repository:sample' experiment.sample.id %}"> {{ experiment.sample.id }} </a></li>
+        <li>Tissue type: {{ experiment.sample.tissue_type }} </li>
+    </ul>
+    </div>
+
+<div>
+    <h3>Attributes</h3>
+    <ul>
+        <li>Library Strategy:  {{ experiment.library_strategy}}</li>
+        <li>Library Source:  {{ experiment.library_source}}</li>
+        <li>Library Layout:  {{ experiment.library_layout}}</li>
+        <li>Library Selection:  {{ experiment.library_selection}}</li>
+        <li>Instrument:  {{ experiment.platform}} {{ experiment.instrument_model}} </li>
+
+    </ul>
+</div>
+
+{% if experiment.file.all %}
+    <div>
+        <h3>Files</h3>
+        <div class="alert alert-info alert-dismissible" role="alert">
+            💡 Click on the filename to display more information.
+
+        </div>
+        <ul>
+        {% for file in experiment.file.all %}
+            <li>
+                    <a role="button"
+                       data-bs-toggle="collapse"
+                       href="#file_detail_{{ file.id }}"
+                       aria-expanded="false"
+                       aria-controls="file_detail_{{ file.id }}">
+                        {{ file.filename }}</a>
+
+                     <div class="collapse small" id="file_detail_{{ file.id }}" >
+                           <div class="card card-body">
+                               <span>
+                                   Location <code>{{ file.host }}:{{ file.filepath }}</code><br />
+                                   Checksum ({{ file.checksum_type }}) <code>{{ file.checksum }}</code>
+                               </span>
+                           </div>
+                     </div>
+            </li>
+        {% endfor %}
+
+        </ul>
+    </div>
+{% else %}
+    <div class="bg-warning"> No Files associated with this experiment</div>
+{% endif %}
+
+
+
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h2>Files</h2>
+    <div class="container-fluid">
+
+    {% if all_files_list %}
+        <ul>
+        {% for file in all_files_list %}
+            <li><a href="{% url 'repository:file' file.id %}">{{ file.filename }} ({{ file.filetype }} ) </a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No files are available.</p>
+    {% endif %}
+    </div>
+{% endblock %}

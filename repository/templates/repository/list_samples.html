@@ -1,0 +1,15 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h2>Samples</h2>
+    {% if all_samples_list %}
+    <ul>
+    {% for biosample in all_samples_list %}
+        <li><a href="{% url 'repository:sample' biosample.id %}"> {{ biosample.label }}</a></li>
+    {% endfor %}
+    </ul>
+    {% else %}
+        <p>No samples are available.</p>
+    {% endif %}
+</div>
+{% endblock %}
