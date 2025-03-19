@@ -1,0 +1,16 @@
+name: test_app
+on: [ pull_request, push ] # activates the workflow when there is a push or pull request in the repo
+jobs:
+  version:
+    runs-on: ubuntu-22.04 # operating system your code will run on
+    steps:
+      - name: Check Conventional Commits
+        uses: dkhunt27/action-conventional-commits@v1.1.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Semantic Versioning
+        id: semver
+        uses: grumpy-programmer/conventional-commits-semver-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
